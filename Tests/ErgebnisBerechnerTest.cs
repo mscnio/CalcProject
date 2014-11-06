@@ -25,18 +25,17 @@ namespace ProjektRechner.Tests
         public override void SetUp()
         {
             base.SetUp();
-            Calculator.Setup(x => x.Addiere(15, 5)).Returns(20);
-
+            // bestimme, dass der aufruf ADDIERE(15, 5) = 3 ist
+            Calculator.Setup(x => x.Addiere(15, 5)).Returns(3);
         }
 
         [Test]
         public void Then_it_should_return_20()
         {
-            Assert.AreEqual(20, new ErgebnisBerechner().GetErgebnis("plus", 15, 5));
-            // Calculator.Verify((ObjectFactory.GetInstance<ICalculator>().Addiere(15, 5)), Times.Exactly(1));
-
-            // Calculator.Verify(p => p.Addiere(15, 5),Times.Exactly(1));
-
+            // folgendes gibt bei der berechnung von 15 + 5 = 3 zurück, da dies im setup so festgelegt wurde
+            Assert.AreEqual(3, new ErgebnisBerechner().GetErgebnis("plus", 15, 5));
+            // prüfung, ob die methode ADDIERE genau 1x aufgerufen worden ist
+            Calculator.Verify(x => x.Addiere(15,5), Times.Exactly(1));
         }
     }
 
